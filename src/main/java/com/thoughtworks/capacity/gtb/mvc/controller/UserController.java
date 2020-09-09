@@ -28,7 +28,6 @@ public class UserController {
         if(userService.hasUser(user)){
             throw new UserIsExistException("用户已存在");
         }
-        System.out.println(1);
         userService.addUser(user);
     }
 
