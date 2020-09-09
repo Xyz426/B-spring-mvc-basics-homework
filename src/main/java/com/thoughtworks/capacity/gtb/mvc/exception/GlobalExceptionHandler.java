@@ -6,6 +6,9 @@ import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
+import javax.validation.ConstraintViolation;
+import javax.validation.ConstraintViolationException;
+import java.util.Set;
 
 
 @RestControllerAdvice
@@ -13,7 +16,7 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler(UserIsExistException.class)
     public ResponseEntity<ErrorResult> handleUserException(UserIsExistException e) {
-        ErrorResult errorResult = new ErrorResult(400, "用户名重复");
+        ErrorResult errorResult = new ErrorResult(400, e.getMessage());
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errorResult);
     }
 
@@ -23,4 +26,16 @@ public class GlobalExceptionHandler {
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new ErrorResult(400, message));
     }
 
+    @ExceptionHandler(ConstraintViolationException.class)
+    public ResponseEntity<ErrorResult> handleValidationException(ConstraintViolationException e) {
+        Set<ConstraintViolation<?>> violations = e.getConstraintViolations();
+
+        String message = "";
+        for (ConstraintViolation<?> constraint : e.getConstraintViolations()) {
+            message = constraint.getMessage();
+            break;
+        }
+        ErrorResult errorResult = new ErrorResult(400,message);
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errorResult);
+    }
 }

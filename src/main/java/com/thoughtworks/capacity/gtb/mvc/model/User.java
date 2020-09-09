@@ -11,11 +11,11 @@ import javax.validation.constraints.*;
 public class User {
     Integer id;
 
-    @NotNull(message = "用户名不为空")
+    @NotBlank(message = "用户名不为空")
     @Size(min = 3,max = 10,message = "用户名不合法")
     String username;
 
-    @NotNull(message = "密码是不为空")
+    @NotBlank(message = "密码是不为空")
     @Size(min = 5,max = 12,message = "密码不合法")
     String password;
 

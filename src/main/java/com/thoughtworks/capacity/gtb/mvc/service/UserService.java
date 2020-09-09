@@ -21,4 +21,8 @@ public class UserService {
         }
         return false;
     }
+
+    public User getUserByName(String username) {
+        return userMap.get(username);
+    }
 }
