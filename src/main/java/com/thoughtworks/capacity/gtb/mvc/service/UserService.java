@@ -3,15 +3,22 @@ package com.thoughtworks.capacity.gtb.mvc.service;
 import com.thoughtworks.capacity.gtb.mvc.model.User;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashMap;
+import java.util.Map;
 
 @Service
 public class UserService {
-    static List<User> userList = new ArrayList<>();
+    static Map<String,User> userMap = new HashMap<>();
 
     public void addUser(User user){
-        user.setId(userList.size()+1);
-        userList.add(user);
+        user.setId(userMap.size()+1);
+        userMap.put(user.getUsername(),user);
+    }
+
+    public boolean hasUser(User user){
+        if(userMap.containsKey(user.getUsername())){
+            return true;
+        }
+        return false;
     }
 }

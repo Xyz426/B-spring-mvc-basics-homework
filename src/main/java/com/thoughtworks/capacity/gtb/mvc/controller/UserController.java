@@ -1,5 +1,6 @@
 package com.thoughtworks.capacity.gtb.mvc.controller;
 
+import com.thoughtworks.capacity.gtb.mvc.exception.UserIsExistException;
 import com.thoughtworks.capacity.gtb.mvc.model.User;
 import com.thoughtworks.capacity.gtb.mvc.service.UserService;
 import org.springframework.http.HttpStatus;
@@ -15,9 +16,6 @@ import javax.validation.Valid;
 @Validated
 public class UserController {
 
-//    @Autowired
-//    UserService userService;
-
     private final UserService userService;
 
     public UserController(UserService userService) {
@@ -26,7 +24,10 @@ public class UserController {
 
     @PostMapping("/register")
     @ResponseStatus(HttpStatus.CREATED)
-    public void createUser(@RequestBody User user){
+    public void createUser(@RequestBody @Valid User user){
+        if(userService.hasUser(user)){
+            throw new UserIsExistException("用户已存在");
+        }
         System.out.println(1);
         userService.addUser(user);
     }

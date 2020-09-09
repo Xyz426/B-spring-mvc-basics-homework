@@ -2,10 +2,7 @@ package com.thoughtworks.capacity.gtb.mvc.model;
 
 import lombok.*;
 
-import javax.validation.constraints.Email;
-import javax.validation.constraints.Max;
-import javax.validation.constraints.Min;
-import javax.validation.constraints.NotNull;
+import javax.validation.constraints.*;
 
 @NoArgsConstructor
 @AllArgsConstructor
@@ -15,15 +12,13 @@ public class User {
     Integer id;
 
     @NotNull(message = "用户名不为空")
-    @Max(10)
-    @Min(3)
+    @Size(min = 3,max = 10,message = "用户名不合法")
     String username;
 
     @NotNull(message = "密码是不为空")
-    @Max(12)
-    @Min(5)
+    @Size(min = 5,max = 12,message = "密码不合法")
     String password;
 
-    @Email
+    @Email(message = "邮箱地址不合法")
     String email;
 }
