@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 
 @RestController
@@ -32,7 +33,7 @@ public class UserController {
     }
 
     @GetMapping("login")
-    public ResponseEntity<User> login(@RequestParam @NotBlank(message = "用户名不为空")@Size(min = 3,max = 10,message = "用户名不合法") String username,
+    public ResponseEntity<User> login(@RequestParam @NotBlank(message = "用户名不为空")@Size(min = 3,max = 10,message = "用户名不合法") @Pattern(regexp = "^[0-9a-zA-Z_]{1,}$",message = "用户名只能由字母、数字或下划线组成") String username,
                                       @RequestParam @NotBlank(message = "密码不为空")@Size(min = 5,max = 12,message = "密码不合法") String password){
         User user = userService.getUserByName(username);
 
